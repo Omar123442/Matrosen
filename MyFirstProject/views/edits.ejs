@@ -1,0 +1,28 @@
+<%- include('layout/Homepage.ejs') %>
+<div class="content">
+    <div class="text-center">
+        <h2>Edit your Blog</h2>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="container mt-3">
+                    <form action="/edit/<%= blogs._id %>?_method=PUT" method="POST">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" id="title" name="title" class="form-control" value="<%= blogs.title %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="catchytext" class="form-label">Catchy Text</label>
+                            <input type="text" id="catchytext" name="catchytext" class="form-control" value="<%= blogs.catchytext %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="text" class="form-label">Text</label>
+                            <textarea id="text" name="text" class="form-control" rows="4" required><%= blogs.text %></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Blog</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

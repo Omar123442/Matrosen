@@ -1,0 +1,55 @@
+.form-container {
+    max-width: 400px;
+    margin: auto;
+}
+body {
+    min-height: 100vh;
+    padding-top: 56px;
+  }
+  .navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .navbar .navbar-brand img {
+    height: 25px;
+  }
+  .sidenav {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    background-color: #343a40;
+    padding-top: 20px;
+  }
+  .sidenav a {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #f1f1f1;
+    display: block;
+  }
+  .sidenav a:hover {
+    background-color: #575757;
+    color: #f1f1f1;
+  }
+  .sidenav .active {
+    background-color: #007bff;
+    color: white;
+  }
+  .sidenav img {
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .sidenav h6 {
+    color: #bbb;
+    text-transform: uppercase;
+    margin-left: 20px;
+    font-size: 14px;
+  }
+  .content {
+    margin-left: 270px;
+    padding: 20px;
+  }
+  

@@ -1,0 +1,25 @@
+<%- include('layout/Homepage.ejs') %>
+
+<div class="content">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Latest Blogs</h2>
+    </div>
+    <div class="container my-5">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <% blogdata.forEach(blogs => { %> 
+                <div class="col-md">
+                    <a href="/show/<%= blogs.id %>" class="text-decoration-none text-dark">
+                        <div class="card h-100 shadow-sm border-0">
+                            <img src="/<%= blogs.image %>" class="card-img-top img-fluid" alt="<%= blogs.title %>">
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold"><%= blogs.title %></h5>
+                                <p class="card-text"><%= blogs.catchytext %></p> 
+                                <a href="/show/<%= blogs.id %>" class="btn btn-primary mt-3">View more</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    

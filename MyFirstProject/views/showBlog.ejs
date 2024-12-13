@@ -1,0 +1,53 @@
+<%- include('layout/Homepage.ejs') %>
+
+<div class="content">
+    <div class="container mt-5">
+        <div class="blog-post ">
+            <div class="d-flex justify-content-center">       
+                     <img style="width: 65%" src="/<%= infos.image %>" class="img-fluid blog-image mb-4" alt="Blog Image">
+            </div>
+            
+            <h1 class="blog-title mb-3"><%= infos.title %></h1>
+
+            <div class="blog-text">
+                <p><%= infos.text %></p>
+            </div>
+            <hr> 
+            <div class="card py-4 border-0" >
+              <div class="d-flex flex-start w-100">
+                <form action="/add-comment/<%= infos._id %>" method="POST" class="w-100">
+                    <div class="form-group">
+                        <input class="form-control p-3 rounded" name="showcomment" id="textAreaExample" rows="4" placeholder="Kommentieren..." style="background: #fff;"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm mt-3">Kommentar posten</button>
+                </form>
+              </div>
+            </div>
+<div class="comments-section">
+  <% commentsen.forEach(comment => { %>
+    <% if (comment.blogPostId.equals(infos._id)) { %> 
+      <div class="comment mb-3 p-4 border rounded" style="background-color: #ffffff;">
+        <div class="comment-header d-flex justify-content-between align-items-center mb-2">
+          <div class="d-flex align-items-center">
+            <img class="comment-avatar rounded-circle mr-2" src="<%= comment.avatar ? comment.avatar : "/images/user.png" %>" alt="User Avatar" style="width: 40px; height: 40px;">
+            <div class="comment-author px-3">
+              <strong> @<%= user.username %> </strong> 
+              <form action="/delete/<%= comment.id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm me-2">Delete</button>
+                 </form>              <label id="counter" for="">0</label>
+                <span class="comment-author"><%= comment.name %></span>
+                <span class="comment-date">- <%= comment.createdAt %></span> 
+              </div>
+            </div>
+          </div>
+        
+        </div>
+        <p class="comment-text"><%= comment.text %></p> 
+      </div>
+    <% } %>
+  <% }); %>
+</div>
+</div>
+</div>
+
+ 
