@@ -1,10 +1,11 @@
 <%- include('layout/Homepage.ejs') %>
+<link rel="stylesheet" href="/css/showblog.css">
 
 <div class="content">
     <div class="container mt-5">
-        <div class="blog-post ">
-            <div class="d-flex justify-content-center">       
-                     <img style="width: 65%" src="/<%= infos.image %>" class="img-fluid blog-image mb-4" alt="Blog Image">
+        <div class="blog-post">
+            <div class="d-flex justify-content-center">
+                <img style="width: 65%" src="/<%= infos.image %>" class="img-fluid blog-image mb-4" alt="Blog Image">
             </div>
             
             <h1 class="blog-title mb-3"><%= infos.title %></h1>
@@ -13,41 +14,70 @@
                 <p><%= infos.text %></p>
             </div>
             <hr> 
-            <div class="card py-4 border-0" >
-              <div class="d-flex flex-start w-100">
-                <form action="/add-comment/<%= infos._id %>" method="POST" class="w-100">
-                    <div class="form-group">
-                        <input class="form-control p-3 rounded" name="showcomment" id="textAreaExample" rows="4" placeholder="Kommentieren..." style="background: #fff;"></input>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-sm mt-3">Kommentar posten</button>
-                </form>
-              </div>
-            </div>
-<div class="comments-section">
-  <% commentsen.forEach(comment => { %>
-    <% if (comment.blogPostId.equals(infos._id)) { %> 
-      <div class="comment mb-3 p-4 border rounded" style="background-color: #ffffff;">
-        <div class="comment-header d-flex justify-content-between align-items-center mb-2">
-          <div class="d-flex align-items-center">
-            <img class="comment-avatar rounded-circle mr-2" src="<%= comment.avatar ? comment.avatar : "/images/user.png" %>" alt="User Avatar" style="width: 40px; height: 40px;">
-            <div class="comment-author px-3">
-              <strong> @<%= user.username %> </strong> 
-              <form action="/delete/<%= comment.id %>?_method=DELETE" method="POST" style="display:inline;">
-                <button type="submit" class="btn btn-danger btn-sm me-2">Delete</button>
-                 </form>              <label id="counter" for="">0</label>
-                <span class="comment-author"><%= comment.name %></span>
-                <span class="comment-date">- <%= comment.createdAt %></span> 
-              </div>
-            </div>
-          </div>
-        
-        </div>
-        <p class="comment-text"><%= comment.text %></p> 
-      </div>
-    <% } %>
-  <% }); %>
-</div>
-</div>
-</div>
+            <div class="card py-4 border-0">
+                <div class="d-flex flex-start w-100">
+                    
+                    <form action="/add-comment/<%= infos._id %>" method="POST" class="w-100">
+                        <div class="form-group">
+                            <% if (user.isGuest) { %>
+                                <input onclick="showGuestWarning()" maxlength="0"  class="form-control p-3 rounded" name="showcomment" id="textAreaExample" rows="4" placeholder="Kommentieren..." style="background: #fff;"></input>
 
- 
+                            <% }else { %>
+
+                                <input   class="form-control p-3 rounded" name="showcomment" id="textAreaExample" rows="4" placeholder="Comment..." style="background: #fff;"></input>
+                                <% } %>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm mt-3">Post Comment</button>
+                    </form>
+                </div>
+            </div>
+            <div class="comments-section">
+                <% commentsen.forEach(comment => { %>
+                    <% if (comment.blogPostId.equals(infos._id)) { %> 
+                        <div class="comment mb-3 p-4 border rounded position-relative" style="background-color: #ffffff;">
+                            <% if (comment.author == user.username || user.isAdmin) { %>
+                                <div class="py-2">
+                                    <form action="/delete-comment/<%= comment._id %>?_method=DELETE" method="POST" style="position: absolute; top: 10px; right: 10px;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                            <% } %>
+                            <div class="comment-header d-flex align-items-center mb-2">
+                                <img class="comment-avatar rounded-circle me-3" src="<%= comment.avatar ? comment.avatar : "/images/user.png" %>" alt="User Avatar" style="width: 40px; height: 40px;">
+                                <div>
+                                    <strong>@<%= comment.author %></strong>
+                                    <span class="comment-author"><%= comment.name %></span>
+                                    <span class="comment-date " style="font-size: 0.9em;"><%= comment.createdAt.toLocaleDateString() %></span>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="guestModal" class="modal" style="display:none;">
+   
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Please log in to perform this action.</p>
+      <button onclick="redirectToLogin()">Go to Login</button>
+    </div>
+  </div>
+<script>
+    function showGuestWarning() {
+      alert("Bitte melden Sie sich an, um diese Aktion auszuführen.");
+    }
+    function showGuestWarning() {
+      document.getElementById("guestModal").style.display = "flex";
+    }
+  
+    document.querySelector(".close").onclick = function () {
+      document.getElementById("guestModal").style.display = "none";
+    };
+  
+    function redirectToLogin() {
+      window.location.href = "/login";
+    }
+  </script>

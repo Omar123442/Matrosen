@@ -1,0 +1,340 @@
+    body {
+        background-color: #1e1e2f;
+        color: #e4e4eb;
+        font-family: 'Arial', sans-serif;
+    }
+    
+    h1.blog-title {
+        color: white;
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    
+    .blog-image {
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .blog-image:hover {
+        transform: scale(1.05);
+    }
+    
+    .blog-text {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        margin: 20px 0;
+    }
+    
+    .card {
+        background-color: #292942;
+        color: #e4e4eb;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    }
+    
+    .card input {
+        background-color: #3a3a55;
+        color: #e4e4eb;
+        border: none;
+    }
+    
+    .card input::placeholder {
+        color: #9b9ba5;
+    }
+    
+    .card input:focus {
+        outline: none;
+        border: 2px solid #ff7e67;
+    }
+    
+    .btn-primary {
+        background-color: #ff7e67;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+        background-color: #ff6045;
+        transform: scale(1.05);
+    }
+    
+    .comment {
+        background-color: #2b2b47;
+        color: #e4e4eb;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        color: white;
+    }
+    
+    .comment:hover {
+        background-color: #353554;
+    }
+    
+    .comment-header {
+        display: flex;
+        align-items: center;
+    }
+    
+    .comment-avatar {
+        border: 2px solid #ff7e67;
+        padding: 2px;
+    }
+    
+    .comment-author {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+    
+ 
+    
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-content {
+        background-color: #292942;
+        color: #e4e4eb;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    }
+    
+    .modal-content button {
+        background-color: #ff7e67;
+        border: none;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .modal-content button:hover {
+        background-color: #ff6045;
+    }
+    
+    .modal .close {
+        color: #fff;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+    
+    .modal .close:hover {
+        color: #ff7e67;
+    }
+    
+    .comments-section {
+        margin-top: 20px;
+        background: linear-gradient(145deg, #292942, #1e1e2f);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    }
+    
+    .comment {
+        background: linear-gradient(120deg, #353554, #2b2b47);
+        color: #e4e4eb;
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+    }
+    
+    .comment:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    }
+    
+    .comment-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .comment-avatar {
+        border: 2px solid #ff7e67;
+        border-radius: 50%;
+        padding: 2px;
+        margin-right: 10px;
+        width: 50px;
+        height: 50px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .comment-avatar:hover {
+        border-color: #ff6045;
+        transform: scale(1.1);
+        transition: all 0.2s ease;
+    }
+    
+   
+    
+   
+    
+    .comment-body {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-top: 10px;
+    }
+    
+    .comment-buttons {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .comment-buttons button {
+        background-color: #ff7e67;
+        border: none;
+        padding: 8px 15px;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    .comment-buttons button:hover {
+        background-color: #ff6045;
+        transform: scale(1.05);
+    }
+    
+    .comment-buttons .delete {
+        background-color: #d9534f;
+    }
+    
+    .comment-buttons .delete:hover {
+        background-color: #c9302c;
+    }
+    
+    .comment-buttons .edit {
+        background-color: #5bc0de;
+    }
+    
+    .comment-buttons .edit:hover {
+        background-color: #31b0d5;
+    }
+    
+    /* Animation for comments */
+    @keyframes fadeInUp {
+        0% {
+        opacity: 0;
+        transform: translateY(20px);
+        }
+        100% {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    }
+    
+    .comment {
+        animation: fadeInUp 0.5s ease-in-out;
+    }
+
+    /* Verbesserter Comment-Author */
+.comment-author {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    background: linear-gradient(90deg, white, white, white);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -150%;
+    }
+    100% {
+      background-position: 150%;
+    }
+  }
+  
+  /* Verbesserter Kalenderstil */
+  .comment-date {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    color: white; /* Ändert die Schriftfarbe auf weiß */
+  }
+  
+  .comment-date::before {
+    content: "📅";
+    font-size: 1rem;
+    margin-right: 5px;
+    color: white;
+  }
+  
+  /* Elegantere Card */
+  .card {
+    background: rgba(41, 41, 66, 0.8);
+    backdrop-filter: blur(10px);
+    color: #e4e4eb;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  }
+  
+  .card input {
+    background-color: #3a3a55;
+    color: #e4e4eb;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .card input::placeholder {
+    color: #9b9ba5;
+  }
+  
+  .card input:focus {
+    outline: none;
+    border: 2px solid #ff7e67;
+    transform: scale(1.03);
+  }
+  
+  .card .btn-primary {
+    background-color: #ff7e67;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .card .btn-primary:hover {
+    background-color: #ff6045;
+    transform: scale(1.05);
+  }
+  
+  

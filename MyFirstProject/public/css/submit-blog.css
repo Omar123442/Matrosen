@@ -1,0 +1,118 @@
+/* Grundlegendes Styling für den Content-Bereich */
+.content {
+    padding-top: 80px; /* Abstand für die fixierte Navbar */
+}
+
+/* Animation für den gesamten Bereich */
+.animated-form h2 {
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+/* FadeIn-Effekt für den Titel */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Abschnitte mit Übergangseffekt */
+.animated-form .mb-3 {
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+/* Übergang für das Formular */
+.animated-form .mb-3 {
+    animation-delay: 0.5s;
+}
+
+/* Animation für das gesamte Formular */
+.animated-form {
+    opacity: 0;
+    animation: fadeUp 1.5s ease forwards;
+}
+
+/* Fade-Up-Effekt für das Formular */
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Effekt für Input-Felder und Textarea */
+.animated-input {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideIn 1s ease forwards;
+}
+
+/* Slide-In für Input-Felder und Textarea */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Fade-Up für Submit Button */
+.animated-button {
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 1.2s; /* Verzögert die Animation */
+}
+
+/* Hover-Effekt für den Submit Button */
+.animated-button:hover {
+    transform: scale(1.05);
+    background-color: #0056b3;
+}
+
+/* Stilt die Upload-Input-Felder */
+.form-control[type="file"] {
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+    animation-delay: 1s;
+}
+
+/* Stil für das Formular */
+.container {
+    background-color: #f9f9f9;
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Animierte Hover-Effekte für Input-Felder und Buttons */
+.animated-input:focus, .animated-input:focus, .animated-button:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 91, 179, 0.5);
+}
+
+/* Stellt sicher, dass der Text im Formular gut lesbar ist */
+label {
+    font-weight: bold;
+}
+
+/* Optional: Für kleinere Bildschirme */
+@media (max-width: 768px) {
+    .col-md-8 {
+        width: 100%;
+        margin: 0 auto;
+    }
+}

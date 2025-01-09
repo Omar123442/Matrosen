@@ -1,0 +1,179 @@
+/* Grundlegendes Styling für den Body und das Login-Formular */
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 1rem;
+    opacity: 0;
+    animation: fadeInBody 1.5s ease forwards;
+}
+
+/* Fade-In-Animation für den Body */
+@keyframes fadeInBody {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Animierte Eingabefelder (E-Mail, Passwort) */
+.form-control {
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    border-color: #ced4da;
+    box-shadow: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 1s ease forwards;
+}
+
+/* Slide-Up-Animation für Input-Felder */
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fokus-Effekte für die Eingabefelder */
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Animierter Login-Button */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    width: 100%;
+    transition: background-color 0.2s;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 1s ease forwards;
+    animation-delay: 0.5s;
+}
+
+/* Hover-Effekt für den Login-Button */
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Animierter Guest Login-Button */
+.btn-guest {
+    background-color: #28a745;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    width: 100%;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+    color: white;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 1s ease forwards;
+    animation-delay: 1s;
+}
+
+/* Hover-Effekt für den Guest Login-Button */
+.btn-guest:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+/* Tooltip-Text mit Animation */
+.tooltip-text {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 1s ease forwards;
+    animation-delay: 1.5s;
+}
+
+/* Tooltip-Container (Popup) */
+.tooltip-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1000;
+}
+
+.tooltip-container p {
+    margin-bottom: 1rem;
+}
+
+.tooltip-container .close-tooltip {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Schließen des Tooltips */
+.tooltip-container.show {
+    display: flex;
+}
+
+/* Fade-In-Effekt für den gesamten Container */
+.login-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInForm 1.5s ease forwards;
+}
+
+/* Fade-In-Animation für das Login-Formular */
+@keyframes fadeInForm {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stil für das Formular-Label */
+.form-label {
+    font-weight: 600;
+    color: #6c757d;
+}
+
+/* Optional: Für kleinere Bildschirme */
+@media (max-width: 768px) {
+    .login-form {
+        width: 100%;
+        margin: 0 auto;
+    }
+}

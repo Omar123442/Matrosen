@@ -1,0 +1,176 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #20232a; /* Dunkelgrauer Hintergrund */
+    color: #f5f5f5; /* Hellgraue Schrift */
+    box-sizing: border-box;
+  }
+  
+  /* Navbar Styling */
+  .navbar {
+    background: linear-gradient(90deg, #2c2f38, #444b5a); /* Dunkler Verlauf */
+    color: #f5f5f5;
+    padding: 15px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  
+  .navbar:hover {
+    background: linear-gradient(90deg, #3a3f4c, #555f70); /* Hellerer Verlauf beim Hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+  }
+  
+  .navbar .navbar-brand {
+    font-weight: bold;
+    color: #ffd700; /* Goldgelb */
+    transition: color 0.3s ease;
+  }
+  
+  .navbar .navbar-brand:hover {
+    color: #ffeb3b; /* Helleres Gelb beim Hover */
+  }
+  
+  .navbar .navbar-nav .nav-link {
+    color: #f5f5f5;
+    font-size: 1.1rem;
+    margin-right: 20px;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar .navbar-nav .nav-link:hover {
+    color: #ffd700;
+    text-decoration: underline;
+  }
+  
+  /* Sidebar Styling */
+  .sidenav {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #2c2f38; /* Dunklerer Hintergrund */
+    color: #f5f5f5;
+    padding-top: 60px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    z-index: 5;
+  }
+  
+  .sidenav a {
+    padding: 12px 15px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #f5f5f5;
+    display: block;
+    margin: 10px 0;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .sidenav a:hover {
+    background-color: #444b5a; /* Helleres Dunkelgrau beim Hover */
+    color: #ffd700;
+    transform: translateX(10px);
+  }
+  
+  .sidenav a.active {
+    background-color: #3a3f4c; /* Mittleres Grau */
+    color: #ffd700;
+  }
+  
+  .sidenav i {
+    margin-right: 10px;
+  }
+  
+  .sidenav hr {
+    border: 1px solid #444b5a;
+    width: 80%;
+    margin: 20px auto;
+  }
+  
+  /* Guest Modal */
+  #guestModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Tiefdunkler Hintergrund */
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+  
+  #guestModal .modal-content {
+    background: #2c2f38;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  #guestModal button {
+    background: #ff5722; /* Orange */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  #guestModal button:hover {
+    background: #e64a19; /* Dunkleres Orange */
+    transform: translateY(-3px);
+  }
+  
+  /* Modal Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .navbar .navbar-nav .nav-link {
+      font-size: 1rem;
+      margin-right: 15px;
+    }
+  
+    .sidenav {
+      width: 100%;
+      height: auto;
+      position: static;
+      padding: 20px;
+    }
+  
+    .sidenav a {
+      padding: 10px;
+    }
+  
+    .sidenav hr {
+      display: none;
+    }
+  
+    .navbar .container-fluid {
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  }
+  

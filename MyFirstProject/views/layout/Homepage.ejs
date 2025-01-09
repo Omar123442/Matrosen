@@ -6,6 +6,12 @@
     <title>Bootstrap Sidebar Example</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/stylesheet.css">
+    <link rel="stylesheet" href="/css/homepage.css">  
+
+
+<style>
+
+</style>
 
   </head>
   <body>
@@ -20,18 +26,10 @@
           </a>
           <form class="d-none d-lg-flex mx-auto" method="POST" action="/search">
             
-              <input class="form-control me-2" name="searchTerm" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control me-2 no-animation" name="searchTerm" type="search" placeholder="Search" aria-label="Search">
               </form>
           <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="fas fa-video"></i></a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="fas fa-th"></i></a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
-              </li>
+           
               <li class="nav-item">
                   <% if (user) { %>
                   <a class="nav-link" href="/home" id="navbarDropdown" role="button">
@@ -46,20 +44,69 @@
   </nav>
 
   <div class="sidenav">
-      <a href="/home" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="/home" class="active"><i class="fas fa-home"></i> Home</a>
+    
+    <% if (user.isAdmin) { %>
+      <a href="/myblogs"><i class="fab fa-youtube"></i> Manage Blogs</a>
+    <% } else if (!user.isGuest || !user.isAdmin ) { %>
       <a href="/myblogs"><i class="fab fa-youtube"></i> My Blogs</a>
+    <% } else { %>
+      <a href="#" onclick="showGuestWarning()"><i class="fab fa-youtube"></i> My Blogs</a>
       <hr>
+    <% } %>
+  
+    <% if (!user.isGuest) { %>
       <a href="/submit-blog"><i class="fas fa-history"></i> Publish your Blog</a>
-      <a href="/Logout"><i class="fas fa-sign-out-alt"></i> Log Out</a>
       <hr>
-      <a href="#" class="text-center fw-bold"><i class="fab fa-youtube"></i> Mediconnect</a>
-  </div>
-      <a href="#" class="text-center fw-bold"><i class="fab fa-youtube"></i>Mediconnect </a>
-   
-    </div>
+      
+
+
+    <% } else { %>
+      <a href="#" onclick="showGuestWarning()"><i class="fas fa-history"></i> Publish your Blog</a>
+    <% } %>
+    <% if (!user.isGuest) { %>
+      <a  href="/report"><i class="fas fa-history"></i>Report</a>
+
+    <% } else { %>
+      <a onclick="showGuestWarning()" href="#"><i class="fas fa-history"></i>Report</a>
+
+      <% } %>
+      <a href="/imprint"><i class="fas fa-history"></i>Imprint</a>
+
 
     
+    <a href="/Logout"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    <hr>
+    <a href="#" class="text-center fw-bold"><i class="fab fa-youtube"></i> Mediconnect</a>
+  </div>
+  <div id="guestModal" class="modal" style="display:none;">
+   
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Please log in to perform this action.</p>
+      <button onclick="redirectToLogin()">Go to Login</button>
+    </div>
+  </div>
+  
+      
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+  function showGuestWarning() {
+    alert("Bitte melden Sie sich an, um diese Aktion auszuführen.");
+  }
+  function showGuestWarning() {
+    document.getElementById("guestModal").style.display = "flex";
+  }
+
+  document.querySelector(".close").onclick = function () {
+    document.getElementById("guestModal").style.display = "none";
+  };
+
+  function redirectToLogin() {
+    window.location.href = "/login";
+  }
+</script>
+
   </body>
 </html>

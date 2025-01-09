@@ -1,0 +1,144 @@
+/* Verbesserte Report-Formular-Animationen */
+.report-container {
+    background-color: #1e1e2f;
+    color: #e4e4eb;
+    padding: 50px 0;
+    animation: fadeInContainer 1s ease-out; /* Sanftes Einblenden des Containers */
+}
+
+.report-heading h2 {
+    font-size: 2.5rem;
+    font-weight: bold;  
+    color: #ff7e67;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards; /* Einblenden mit Aufwärtsbewegung */
+}
+
+.report-heading p {
+    font-size: 1.2rem;
+    color: #d1d1d1;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out 0.5s forwards; /* Verzögertes Einblenden */
+}
+
+.report-form {
+    background-color: #292942;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInForm 1s ease-out 0.7s forwards; /* Einblenden des Formulars mit Aufwärtsbewegung */
+}
+
+/* Formular Hover-Effekt */
+.report-form:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+}
+
+/* Eingabefelder */
+.report-form .form-control {
+    background-color: #3a3a55;
+    color: #e4e4eb;
+    border: 1px solid #ff7e67;
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    opacity: 0;
+    transform: translateX(-30px); /* Startet von der Seite */
+    animation: fadeInField 1s ease-out forwards; /* Eingabefelder erscheinen mit Verzögerung */
+}
+
+.report-form .form-control:focus {
+    background-color: #292942;
+    border-color: #ff7e67;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 126, 103, 0.7);
+}
+
+/* Button */
+.report-form .btn-primary {
+    background-color: #ff7e67;
+    border: none;
+    padding: 12px 25px;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInButton 1s ease-out 1.2s forwards; /* Button mit Verzögerung einblenden */
+}
+
+/* Button Hover-Effekt */
+.report-form .btn-primary:hover {
+    background-color: #ff6045;
+    transform: scale(1.05);
+}
+
+/* Animationen */
+@keyframes fadeInContainer {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInForm {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInField {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInButton {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Weißer Placeholder-Text */
+.report-form .form-control::placeholder {
+    color: rgb(136, 127, 127); /* Setzt die Farbe des Platzhalter-Textes auf Weiß */
+    opacity: 1;   /* Stellt sicher, dass der Platzhalter vollständig sichtbar ist */
+}

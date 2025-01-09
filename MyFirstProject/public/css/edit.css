@@ -1,0 +1,58 @@
+/* Grundlegendes Styling für den gesamten Bereich */
+.content {
+    padding-top: 60px; /* Falls die Navbar vorhanden ist */
+}
+
+/* Animationseffekt für den Container */
+.container {
+    animation: fadeInUp 1.5s ease-out;
+}
+
+/* Eingabefelder und Textarea */
+.form-control {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Vergrößern der Eingabefelder bei Fokussierung */
+.form-control:focus {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
+}
+
+/* Animation für das Formulareingabefeld */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Button-Effekt */
+button.btn-primary {
+    transition: all 0.3s ease;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* Button Animation bei Hover */
+button.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Einfache Hover-Effekte für das gesamte Formular */
+.form-label {
+    transition: color 0.3s ease;
+}
+
+.form-control:focus + .form-label,
+.form-control:active + .form-label {
+    color: #007bff;
+}

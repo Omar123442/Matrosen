@@ -1,10 +1,10 @@
 const mongoose = require("mongoose"); 
 const blog  = new mongoose.Schema({
-    image:{ // Feldname des Schema
+    image:{ 
         type:String, 
         required: "This field is required"
     },
-    title:{ // Feldname des Schema
+    title:{ 
         type: String, 
         required: "This field is required"
     },
@@ -17,8 +17,8 @@ const blog  = new mongoose.Schema({
         required: "This field is required",
      },
      author: {
-        type: mongoose.Schema.Types.ObjectId,//spezieller Datentyp in MongoDB, der als eindeutiger Identifikator für jedes Dokument in einer Sammlung dient.
-        ref: "Config", // Name des Modells, auf das verwiesen wird (falls du ein User-Modell hast)
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Config",
         required: true
     }
 })
@@ -26,6 +26,6 @@ const blog  = new mongoose.Schema({
 blog.index({ title: 'text', catchytext: 'text', text: 'text' });
 
 
-const infoBlog = mongoose.model("blog",blog ); 
+const infoBlog = mongoose.model("blog",blog ); // damit habe ich einen neue Kollektion in Mongodb erstellt(Les go)
 
-module.exports = infoBlog; 
+module.exports = infoBlog;  

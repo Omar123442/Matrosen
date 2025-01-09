@@ -1,0 +1,52 @@
+    <%- include('layout/Homepage.ejs') %>
+    <link rel="stylesheet" href="/css/report.css">
+    
+    <div class="content mt-5 report-container">
+        <div class="text-center report-heading">
+            <h2 class="text-primary">Report an Issue</h2>
+            <p class="text">Tell us about the issue you're facing, and we'll look into it as soon as possible.</p>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="mt-4 p-4 shadow rounded report-form">
+                    <form action="/report" method="POST">
+                        <div class="form-group mb-3">
+                            <label for="email" class="mb-2 font-weight-bold text-secondary">Your Email:</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="form-control rounded p-3" 
+                                placeholder="Enter your email" 
+                                required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="subject" class="mb-2 font-weight-bold text-secondary">Subject:</label>
+                            <input 
+                                type="text" 
+                                id="subject" 
+                                name="subject" 
+                                class="form-control rounded p-3" 
+                                placeholder="Enter the subject" 
+                                required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="reportText" class="mb-2 font-weight-bold text-secondary">Describe the issue:</label>
+                            <textarea 
+                                id="reportText" 
+                                name="reportText" 
+                                rows="6" 
+                                class="form-control rounded p-3" 
+                                placeholder="Write your report here..." 
+                                style="resize: none;" 
+                                required></textarea>
+                        </div>
+                        <div class="text-end mt-3">
+                            <button type="submit" class="btn btn-primary px-4">Submit Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    

@@ -5,11 +5,24 @@ const comments = new mongoose.Schema({
         type: String, 
         required: "This field is required"
     },
-    blogPostId: { // Hier wird das `blogPostId` hinzugefügt
-        type: mongoose.Schema.Types.ObjectId, // Typ von ObjectId
-        ref: "blog", // Bezug zum `blog` Modell
+    blogPostId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "blog", 
         required: true
-    }
+    },
+    author: { 
+        type: String, 
+        required: true 
+    },
+    text:{
+        type: String, 
+        required: false
+    } , 
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    
 })
 
 let  Comment = mongoose.model("comment",comments );

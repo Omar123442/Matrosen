@@ -12,7 +12,16 @@ let config = new mongoose.Schema({
     password:{
         type: String, 
         required:"This fieled is required"
+    }, 
+    isAdmin:{
+        type:Boolean, 
+        required: true, 
+    } ,
+    isGuest:{
+        type: Boolean, 
+        required: false
     }
+
 })
 
 let configoration = mongoose.model("Config", config); 
