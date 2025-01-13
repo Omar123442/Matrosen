@@ -19,16 +19,37 @@
                     
                     <form action="/add-comment/<%= infos._id %>" method="POST" class="w-100">
                         <div class="form-group">
-                            <% if (user.isGuest) { %>
-                                <input onclick="showGuestWarning()" maxlength="0"  class="form-control p-3 rounded" name="showcomment" id="textAreaExample" rows="4" placeholder="Kommentieren..." style="background: #fff;"></input>
-
-                            <% }else { %>
-
-                                <input   class="form-control p-3 rounded" name="showcomment" id="textAreaExample" rows="4" placeholder="Comment..." style="background: #fff;"></input>
-                                <% } %>
+                          <% if (user.isGuest) { %>
+                            <!-- Gäste können nicht schreiben -->
+                            <input onclick="showGuestWarning()" 
+                                   class="form-control p-3 rounded" 
+                                   name="showcomment" 
+                                   id="textAreaExample" 
+                                   placeholder="Bitte melden Sie sich an, um zu kommentieren..." 
+                                   style="background: #ddd; cursor: not-allowed;" 
+                                   readonly />
+                          <% } else if (user.isAdmin) { %>
+                            <!-- Admins können nicht schreiben -->
+                            <input class="form-control p-3 rounded" 
+                                   name="showcomment" 
+                                   id="textAreaExample" 
+                                   placeholder="Admins können keine Kommentare schreiben." 
+                                   style="background: #ddd; cursor: not-allowed;" 
+                                   readonly />
+                          <% } else { %>
+                            <!-- Reguläre Benutzer können schreiben -->
+                            <input class="form-control p-3 rounded" 
+                                   name="showcomment" 
+                                   id="textAreaExample" 
+                                   placeholder="Kommentieren..." 
+                                   style="background: #fff;" />
+                          <% } %>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-sm mt-3">Post Comment</button>
-                    </form>
+                        <button type="submit" class="btn btn-primary btn-sm mt-3"
+                          <% if (user.isGuest || user.isAdmin) { %> disabled <% } %>>
+                          Post Comment
+                        </button>
+                      </form>                                          
                 </div>
             </div>
             <div class="comments-section">

@@ -7,6 +7,7 @@
     const  crypto = require ("crypto"); 
     const bcrypt = require('bcrypt');
     const path = require('path');
+const { allowedNodeEnvironmentFlags } = require("process");
 
     exports.signdata = async(req, res)=>{
 
@@ -59,38 +60,53 @@
     }
 
 
-    exports.logindata = async(req, res)=>{
-        const ADMIN_EMAIL = "AdminMediconnect@gmail.com"; 
-        const ADMIN_PASSWORD = "B1xID]b}"
+    const bcrypt = require("bcrypt");
 
-        const check = await configoration.findOne({name: req.body.emailLog});
-        if(req.body.emailLog == ADMIN_EMAIL && req.body.password == ADMIN_PASSWORD){
-            req.session.check = {
-                username: "Admin", 
-                name: ADMIN_EMAIL, 
-                password: ADMIN_PASSWORD, 
-                isAdmin: true
-            }
-    return       res.redirect("/home"); 
-        }
-        if(!check){
-        return res.send("The email does not exist");
-        }  
-
-
-        const isMatch = await bcrypt.compare(req.body.password,check.password);
-        if(!isMatch){
-            res.send("False Passwort " );
-        }
-        else{
-            req.session.check = check;
-
-            res.redirect("/home");  
+    exports.logindata = async (req, res) => {
+      try {
+        const ADMIN_EMAIL = "AdminMediconnect@gmail.com";
+        const ADMIN_PASSWORD = "B1xID]b}";
+        const ADMIN_USERNAME = "Admin";
+    
+        // Admin-Login-Logik
+        if (req.body.emailLog === ADMIN_EMAIL && req.body.password === ADMIN_PASSWORD) {
+          req.session.check = {
+            username: ADMIN_USERNAME,
+            email: ADMIN_EMAIL,
+            isAdmin: true,
+            isGuest: false,
+          };
+          return res.redirect("/home");
         }
     
-    } 
-    console.log()
-
+        // Überprüfen, ob Benutzer existiert
+        const user = await configoration.findOne({ name: req.body.emailLog });
+        if (!user) {
+          return res.status(404).send("The email does not exist");
+        }
+    
+        // Passwortüberprüfung
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (!isMatch) {
+          return res.status(401).send("Incorrect password");
+        }
+    
+        // Sitzung für regulären Benutzer erstellen
+        req.session.check = {
+          _id: user._id.toString(),
+          username: user.username,
+          name: user.name,
+          isAdmin: user.isAdmin || false,
+          isGuest: user.isGuest || false,
+        };
+    
+        return res.redirect("/home");
+      } catch (error) {
+        console.error("Login error:", error);
+        return res.status(500).send("An error occurred during login");
+      }
+    };
+    
     exports.login = async(req, res)=>{
         res.render("Login");
     }
@@ -255,7 +271,6 @@
                 return res.status(404).json({ message: "User not found." });
             }
     
-            // Aktualisierung des Benutzernamens
             if (req.body.username && req.body.username !== user.username) {
                 const oldUsername = user.username;
                 user.username = req.body.username;
