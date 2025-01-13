@@ -1,5 +1,5 @@
     const express = require("express"); 
-    const router = express.Router(); //Routing Struktur
+    const router = express.Router(); 
     const controller = require("../controllers/controller.js"); 
     router.get("/", (req, res) => {
         if (req.session.check) {
@@ -28,4 +28,6 @@
     router.get("/report", controller.report); 
     router.post("/report", controller.reportdata); 
     router.get("/imprint", controller.imprint);
+    router.get("/userManegement", controller.manageUser); 
+    router.post("/userManegement", controller.manageUserdata); 
     module.exports= router; 

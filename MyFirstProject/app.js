@@ -28,6 +28,11 @@
     }).catch((error)=>{
         console.log("error "  +error); 
     })
+// App.js oder dein Haupt-Server-File
+app.use((req, res, next) => {
+    res.locals.user = req.session.check || null; // Macht 'user' global verfügbar
+    next();
+});
 
 
 

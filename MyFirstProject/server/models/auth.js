@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 let config = new mongoose.Schema({
    username:{
     type:String, 
-    required: "This field is required"
+    required: false,
    },
     name:{
         type:String, 
@@ -12,10 +12,14 @@ let config = new mongoose.Schema({
     password:{
         type: String, 
         required:"This fieled is required"
+    },
+    profilePicture:{
+        type: String,
+        required: false
     }, 
     isAdmin:{
         type:Boolean, 
-        required: true, 
+        required: false, 
     } ,
     isGuest:{
         type: Boolean, 

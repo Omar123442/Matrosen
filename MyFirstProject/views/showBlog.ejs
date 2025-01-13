@@ -43,7 +43,12 @@
                                 </div>
                             <% } %>
                             <div class="comment-header d-flex align-items-center mb-2">
-                                <img class="comment-avatar rounded-circle me-3" src="<%= comment.avatar ? comment.avatar : "/images/user.png" %>" alt="User Avatar" style="width: 40px; height: 40px;">
+
+                                <img class="comment-avatar rounded-circle me-3" 
+                                src="/<%= comment.imageAuthor ? comment.imageAuthor : 'images/user.png' %>" 
+                                alt="User Avatar" 
+                                style="width: 40px; height: 40px;">
+                                                           
                                 <div>
                                     <strong>@<%= comment.author %></strong>
                                     <span class="comment-author"><%= comment.name %></span>

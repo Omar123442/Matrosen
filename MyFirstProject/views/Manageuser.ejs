@@ -1,0 +1,66 @@
+<%- include('layout/Homepage.ejs') %>
+<link rel="stylesheet" href="/css/updateUser.css">
+<div class="content">
+    <div class="text-center">
+        <h2 class="edit-heading">Update Your Profile</h2>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="container mt-3 form-container">
+                    <form action="/userManegement" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        
+                        <!-- Benutzername ändern -->
+                        <div class="form-group">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" id="username" name="username" class="form-control animated-input" placeholder="Enter your username" value="<%= user.username %>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">New Password</label>
+                            <input type="password" id="password" name="password" class="form-control animated-input" placeholder=" leave blank to keep current password ">
+                        </div>
+
+                        <!-- Profilbild ändern -->
+                        <div class="form-group">
+                            <label for="profilePicture" class="form-label">Profile Picture</label>
+                            <input type="file" id="profilePicture" name="profilePicture" class="form-control animated-input" accept="image/*" onchange="previewImage(event)">
+                        </div>                        
+                        <div class="image-preview-container mb-3">
+                            <img id="imagePreview" class="image-preview" src="<%= user.profilePicture %>" alt="Current Profile Picture">
+                        </div>
+
+                        <!-- Passwort optional -->
+                      
+
+                        <button type="submit" class="btn btn-primary submit-btn">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Bildvorschau-Funktion
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('imagePreview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Formularvalidierung
+    function validateForm() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Wenn weder Username noch Profilbild geändert wurden
+        if (!username && !document.getElementById('profilePicture').files.length) {
+            alert("Please change either your username or profile picture.");
+            return false;
+        }
+
+        return true;
+    }
+</script>

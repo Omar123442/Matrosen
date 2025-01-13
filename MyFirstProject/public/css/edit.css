@@ -56,3 +56,23 @@ button.btn-primary:hover {
 .form-control:active + .form-label {
     color: #007bff;
 }
+/* Image Preview Styling */
+.image-preview-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.image-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #ffd700;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-preview:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.5);
+}

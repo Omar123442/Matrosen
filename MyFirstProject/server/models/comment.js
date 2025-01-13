@@ -14,6 +14,10 @@ const comments = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    imageAuthor:{
+        type: String,
+        required: false,
+    },
     text:{
         type: String, 
         required: false

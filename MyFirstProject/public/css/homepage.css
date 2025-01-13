@@ -173,4 +173,15 @@ body, html {
       justify-content: space-between;
     }
   }
-  
+  /* Profilbild in der Navbar */
+  .profile-picture {
+    width: 40px; /* Breite des Profilbildes */
+    height: 40px; /* Höhe des Profilbildes */
+    object-fit: cover; /* Damit das Bild korrekt skaliert wird, ohne verzerrt zu wirken */
+    border-radius: 50%; /* Wenn du das Bild rund machen möchtest */
+}
+
+/* Hover-Effekt für das Profilbild */
+.profile-picture:hover {
+  border-color: #ffd700; /* Farbe der Umrandung ändern */
+}

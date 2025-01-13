@@ -30,15 +30,19 @@
               </form>
           <ul class="navbar-nav ms-auto">
            
-              <li class="nav-item">
-                  <% if (user) { %>
-                  <a class="nav-link" href="/home" id="navbarDropdown" role="button">
-                      Hi <%= user.username %>
-                  </a>
-                  <% } else { %>
-                  <a href="/login">Login</a>
-                  <% } %>
-              </li>
+            <li class="nav-item d-flex align-items-center">
+              <% if (!user.isGuest) { %>
+
+                <a class="nav-link d-flex align-items-center" href="/userManegement" id="navbarDropdown" role="button">
+
+                  <img class="profile-picture me-2" src="/<%= user.profilePicture || 'images/user.png' %>" alt="Profile Picture" class="navbar-profile-img">
+
+                  Hi <%= user.username %>
+                </a>
+              <% } %>
+            </li>
+            
+            
           </ul>
       </div>
   </nav>
@@ -46,9 +50,9 @@
   <div class="sidenav">
     <a href="/home" class="active"><i class="fas fa-home"></i> Home</a>
     
-    <% if (user.isAdmin) { %>
+    <% if (user &&user.isAdmin) { %>
       <a href="/myblogs"><i class="fab fa-youtube"></i> Manage Blogs</a>
-    <% } else if (!user.isGuest || !user.isAdmin ) { %>
+    <% } else if (!user.isGuest  ) { %>
       <a href="/myblogs"><i class="fab fa-youtube"></i> My Blogs</a>
     <% } else { %>
       <a href="#" onclick="showGuestWarning()"><i class="fab fa-youtube"></i> My Blogs</a>
@@ -59,8 +63,6 @@
       <a href="/submit-blog"><i class="fas fa-history"></i> Publish your Blog</a>
       <hr>
       
-
-
     <% } else { %>
       <a href="#" onclick="showGuestWarning()"><i class="fas fa-history"></i> Publish your Blog</a>
     <% } %>
