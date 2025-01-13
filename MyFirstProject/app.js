@@ -1,6 +1,6 @@
     const express = require("express"); 
     const app = express(); 
-    const port = process.env.Port||5000;
+    const port = 5000;
     const mongoose = require("mongoose"); 
     const routes = require("./server/routes/routes.js");
     const bcrypt = require('bcrypt');
