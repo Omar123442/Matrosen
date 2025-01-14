@@ -9,10 +9,6 @@
         <link rel="stylesheet" href="/css/homepage.css">  
 
 
-    <style>
-
-    </style>
-
       </head>
       <body>
         <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
@@ -31,15 +27,15 @@
               <ul class="navbar-nav ms-auto">
               
                 <li class="nav-item d-flex align-items-center">
-                  <% if (!user.isGuest) { %>
+                  <% if (!user.isGuest && !user.isAdmin) { %>
 
                     <a class="nav-link d-flex align-items-center" href="/userManegement" id="navbarDropdown" role="button">
 
                       <img class="profile-picture me-2" src="/<%= user.profilePicture || 'images/user.png' %>" alt="Profile Picture" class="navbar-profile-img">
+                      <% } %> 
 
                       Hi <%= user.username %>
                     </a>
-                  <% } %>
                 </li>
                 
                 
@@ -92,9 +88,7 @@
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
             <script>
-      function showGuestWarning() {
-        alert("Bitte melden Sie sich an, um diese Aktion auszuführen.");
-      }
+    
       function showGuestWarning() {
         document.getElementById("guestModal").style.display = "flex";
       }

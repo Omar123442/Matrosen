@@ -7,6 +7,9 @@
     const  crypto = require ("crypto"); 
     const bcrypt = require('bcrypt');
     const path = require('path');
+    const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
+
 const { allowedNodeEnvironmentFlags } = require("process");
 
     exports.signdata = async(req, res)=>{
@@ -60,54 +63,55 @@ const { allowedNodeEnvironmentFlags } = require("process");
     }
 
 
-    const bcrypt = require("bcrypt");
 
     exports.logindata = async (req, res) => {
-      try {
-        const ADMIN_EMAIL = "AdminMediconnect@gmail.com";
-        const ADMIN_PASSWORD = "B1xID]b}";
-        const ADMIN_USERNAME = "Admin";
+        try {
+            const ADMIN_EMAIL = "AdminMediconnect@gmail.com";
+            const ADMIN_PASSWORD = "B1xID]b}";
+            const ADMIN_USERNAME = "Admin";
     
-        // Admin-Login-Logik
-        if (req.body.emailLog === ADMIN_EMAIL && req.body.password === ADMIN_PASSWORD) {
-          req.session.check = {
-            username: ADMIN_USERNAME,
-            email: ADMIN_EMAIL,
-            isAdmin: true,
-            isGuest: false,
-          };
-          return res.redirect("/home");
+            if (!req.body.emailLog || !req.body.password) {
+                return res.status(400).send("Email and password are required.");
+            }
+    
+            if (req.body.emailLog === ADMIN_EMAIL && req.body.password === ADMIN_PASSWORD) {
+                req.session.check = {
+                    username: ADMIN_USERNAME,
+                    email: ADMIN_EMAIL,
+                    isAdmin: true,
+                    isGuest: false,
+                    profilePicture: "images/user.png", 
+                };
+                return res.redirect("/home");
+            }
+            
+    
+            const user = await configoration.findOne({ name: req.body.emailLog });
+            if (!user) {
+                return res.status(400).json({ error: "Email and password are required." });
+                }
+    
+            const isMatch = await bcrypt.compare(req.body.password, user.password);
+            if (!isMatch) {
+                return res.status(401).send("Incorrect password.");
+            }
+    
+            req.session.check = {
+                _id: user._id.toString(),
+                username: user.username,
+                email: user.name,
+                isAdmin: user.isAdmin || false,
+                isGuest: user.isGuest || false,
+                profilePicture: user.profilePicture || "images/user.png", 
+            };
+    
+            return res.redirect("/home");
+        } catch (error) {
+            console.error("Login error:", error);
+            return res.status(500).send("An error occurred during login. Please try again later.");
         }
-    
-        // Überprüfen, ob Benutzer existiert
-        const user = await configoration.findOne({ name: req.body.emailLog });
-        if (!user) {
-          return res.status(404).send("The email does not exist");
-        }
-    
-        // Passwortüberprüfung
-        const isMatch = await bcrypt.compare(req.body.password, user.password);
-        if (!isMatch) {
-          return res.status(401).send("Incorrect password");
-        }
-    
-        // Sitzung für regulären Benutzer erstellen
-        req.session.check = {
-          _id: user._id.toString(),
-          username: user.username,
-          name: user.name,
-          isAdmin: user.isAdmin || false,
-          isGuest: user.isGuest || false,
-        };
-    
-        return res.redirect("/home");
-      } catch (error) {
-        console.error("Login error:", error);
-        return res.status(500).send("An error occurred during login");
-      }
     };
-    
-    exports.login = async(req, res)=>{
+            exports.login = async(req, res)=>{
         res.render("Login");
     }
 
@@ -226,29 +230,51 @@ const { allowedNodeEnvironmentFlags } = require("process");
     exports.home = async (req, res) => {
         try {
             if (req.session.check) {
-                const page = parseInt(req.query.page) || 1; // Konvertiere `req.query.page` zu einer Zahl, Standard ist 1            
-                const limit = 5; 
-                const skip = (page - 1) * limit; 
-                const totalBlogs = await blog.countDocuments(); 
-                const totalPages = Math.ceil(totalBlogs / limit); 
-
-                const blogdata = await blog.find().skip(skip).limit(limit); 
-                const user = await configoration.findById(req.session.check)
-
-                return res.render("index.ejs", {
-                    user,
-                    blogdata,
-                    currentPage: page,
-                    totalPages,
-                });
+                if (req.session.check.isAdmin) {
+                    const page = parseInt(req.query.page) || 1;
+                    const limit = 5;
+                    const skip = (page - 1) * limit;
+    
+                    const totalBlogs = await blog.countDocuments();
+                    const totalPages = Math.ceil(totalBlogs / limit);
+                    const blogdata = await blog.find().skip(skip).limit(limit);
+    
+                    return res.render("index.ejs", {
+                        user: req.session.check, // Admin-Daten direkt aus der Session
+                        blogdata,
+                        currentPage: page,
+                        totalPages,
+                    });
+                } else {
+                    const userId = new ObjectId(req.session.check._id); 
+                    const user = await configoration.findById(userId);
+                    if (!user) {
+                        return res.status(404).send("User not found.");
+                    }
+    
+                    const page = parseInt(req.query.page) || 1;
+                    const limit = 5;
+                    const skip = (page - 1) * limit;
+    
+                    const totalBlogs = await blog.countDocuments();
+                    const totalPages = Math.ceil(totalBlogs / limit);
+                    const blogdata = await blog.find().skip(skip).limit(limit);
+    
+                    return res.render("index.ejs", {
+                        user,
+                        blogdata,
+                        currentPage: page,
+                        totalPages,
+                    });
+                }
             }
             res.redirect("/Login");
         } catch (error) {
-            console.log("Error " + error);
+            console.error("Error in home route:", error);
+            res.status(500).send("Server error");
         }
     };
-
-    exports.manageUser = async(req, res)=>{
+        exports.manageUser = async(req, res)=>{
         try{
             if(req.session.check){
                 res.render("Manageuser.ejs", {user: req.session.check}); 
@@ -434,7 +460,7 @@ const { allowedNodeEnvironmentFlags } = require("process");
     exports.show = async (req, res) => {
         try {
             if (req.session.check) {
-                console.log(req.session.check.profilePicture); // Überprüfen, ob das Profilbild da ist
+                console.log(req.session.check.profilePicture); 
 
                 const blogPostId = req.params.id; 
                 const infos = await blog.findById(blogPostId); 
@@ -445,7 +471,6 @@ const { allowedNodeEnvironmentFlags } = require("process");
                 const commentsen = await Comment.find({ blogPostId });
                 const user = await configoration.findById(req.session.check._id);
 
-                // Profilbild direkt aus der Session verwenden
                 res.render("showBlog.ejs", { 
                     infos, 
                     commentsen, 
@@ -483,15 +508,15 @@ const { allowedNodeEnvironmentFlags } = require("process");
 
     exports.myblogs = async (req, res) => {
         try {
-            let ublogs;
-            if (req.session.check) {
-                const user = await configoration.findById(req.session.check._id);
+            if (req.session.check) { 
+                let user = await configoration.findById(req.session.check._id); 
+                let ublogs;
                 if (req.session.check.isAdmin) {
                     ublogs = await blog.find();
                 } else {
                     ublogs = await blog.find({ author: req.session.check._id });
                 }
-                res.render("myBlogs.ejs", { user, blogs: ublogs });
+                res.render("myBlogs.ejs", { user: req.session.check, blogs: ublogs });
             } else {
                 res.redirect('/login'); 
             }
@@ -500,6 +525,7 @@ const { allowedNodeEnvironmentFlags } = require("process");
             res.status(500).send("Server error");
         }
     };
+    
 
 
 
@@ -573,4 +599,3 @@ const { allowedNodeEnvironmentFlags } = require("process");
         }
     
     }
-

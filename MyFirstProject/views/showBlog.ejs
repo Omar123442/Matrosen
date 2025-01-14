@@ -20,29 +20,28 @@
                     <form action="/add-comment/<%= infos._id %>" method="POST" class="w-100">
                         <div class="form-group">
                           <% if (user.isGuest) { %>
-                            <!-- Gäste können nicht schreiben -->
                             <input onclick="showGuestWarning()" 
                                    class="form-control p-3 rounded" 
                                    name="showcomment" 
                                    id="textAreaExample" 
-                                   placeholder="Bitte melden Sie sich an, um zu kommentieren..." 
+                                   placeholder="Please login to post a comment" 
                                    style="background: #ddd; cursor: not-allowed;" 
                                    readonly />
                           <% } else if (user.isAdmin) { %>
-                            <!-- Admins können nicht schreiben -->
                             <input class="form-control p-3 rounded" 
                                    name="showcomment" 
                                    id="textAreaExample" 
-                                   placeholder="Admins können keine Kommentare schreiben." 
+                                   placeholder="Admin can not post a comment." 
                                    style="background: #ddd; cursor: not-allowed;" 
                                    readonly />
                           <% } else { %>
-                            <!-- Reguläre Benutzer können schreiben -->
                             <input class="form-control p-3 rounded" 
                                    name="showcomment" 
                                    id="textAreaExample" 
-                                   placeholder="Kommentieren..." 
-                                   style="background: #fff;" />
+                                   placeholder="Comment..." 
+                                   style="background: #fff;" 
+                                   required
+                                   />
                           <% } %>
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm mt-3"
