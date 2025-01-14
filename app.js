@@ -3,7 +3,7 @@
     const port = 5000;
     const mongoose = require("mongoose"); 
     const routes = require("./server/routes/routes.js");
-    const bcrypt = require('bcrypt');
+    const bcryptjs = require('bcryptjs'); // Verwende bcryptjs statt bcrypt    
     const session = require("express-session");
     const fileUpload = require('express-fileupload');
     const methodOverride = require('method-override');
