@@ -391,47 +391,41 @@ const { allowedNodeEnvironmentFlags } = require("process");
     exports.blogdats = async (req, res) => {
         try {
             if (req.session.check) {
-                let imageUploadFile;
-                let uploadPath;
-                let newImageName;
-
-                if (!req.files || Object.keys(req.files).length === 0) {
+                // Sicherstellen, dass eine Datei hochgeladen wurde
+                if (!req.files || !req.files.image) {
                     console.log('No Files were uploaded.');
                     return res.status(400).send('No files were uploaded.');
                 }
-
-                imageUploadFile = req.files.image;
-                newImageName = Date.now() + path.extname(imageUploadFile.name); 
-                uploadPath = path.resolve('./') + '/public/uploads/' + newImageName;
-
-                imageUploadFile.mv(uploadPath, function (err) {
-                    if (err) {
-                        console.log("Error " + err);
-                        return res.status(500).send(err);
-                    }
-                });
-
+    
+                const imageUploadFile = req.files.image;
+                const newImageName = Date.now() + path.extname(imageUploadFile.name); // Einzigartiger Name für das Bild
+                const uploadPath = path.resolve('public/uploads') + '/' + newImageName; // Pfad zum Speichern des Bildes
+    
+                // Bild in das Verzeichnis hochladen (asynchron)
+                await imageUploadFile.mv(uploadPath);
+                
+                // Blog-Daten speichern
                 const blogData = new blog({
-                    image: 'uploads/' + newImageName,
-                    title: req.body.title, 
-                    catchytext: req.body.catchy, 
-                    text: req.body.btext, 
-                    author: req.session.check._id 
+                    image: 'uploads/' + newImageName,  // Pfad zum Bild relativ zum öffentlichen Verzeichnis
+                    title: req.body.title,
+                    catchytext: req.body.catchy,
+                    text: req.body.btext,
+                    author: req.session.check._id
                 });
-
-
+    
+                // Blog-Daten speichern und auf die Startseite umleiten
                 await blogData.save();
-                return res.redirect("/home"); 
-
+                return res.redirect("/home");
             } else {
-                return res.redirect("/login"); 
+                // Falls der Benutzer nicht eingeloggt ist, umleiten
+                return res.redirect("/login");
             }
         } catch (error) {
-            console.log("Error " + error);
+            // Fehlerbehandlung
+            console.error("Error: ", error);
             res.status(500).send("Server error");
         }
     };
-
     exports.showdata = async (req, res) => {
         try {
             if (req.session.check) {
