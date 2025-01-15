@@ -392,57 +392,59 @@ const { allowedNodeEnvironmentFlags } = require("process");
 
 
 
-exports.blogdats = async (req, res) => {
-    try {
-        if (req.session.check) {
-            // Sicherstellen, dass eine Datei hochgeladen wurde
-            if (!req.files || !req.files.image) {
-                console.log('No Files were uploaded.');
-                return res.status(400).send('No files were uploaded.');
-            }
-
-            const imageUploadFile = req.files.image;
-            const newImageName = Date.now() + path.extname(imageUploadFile.name); // Einzigartiger Name für das Bild
-            const uploadPath = path.resolve('public/uploads') + '/' + newImageName; // Pfad zum Speichern des Bildes
-            
-            // Bild speichern
-            await imageUploadFile.mv(uploadPath);
-
-            // Upload des Bildes zu ImgBB
-            const formData = new FormData();
-            formData.append('image', fs.createReadStream(uploadPath));
-
-            const response = await axios.post(`https://api.imgbb.com/1/upload?key=0cc455817c243eed31f456eee1596e6e`, formData, {
-                headers: formData.getHeaders(),
-            });
-
-            if (response.data && response.data.data && response.data.data.url) {
-                const imageUrl = response.data.data.url;
-
-                // Blog-Daten speichern
-                const blogData = new blog({
-                    image: imageUrl, // Bild-URL von imgBB
-                    title: req.body.title,
-                    catchytext: req.body.catchy,
-                    text: req.body.btext,
-                    author: req.session.check._id,
-                });
-
-                await blogData.save();
-                return res.redirect("/home");
+    exports.blogdats = async (req, res) => {
+        try {
+            if (req.session.check) {
+                // Sicherstellen, dass eine Datei hochgeladen wurde
+                if (!req.files || !req.files.image) {
+                    console.log('No Files were uploaded.');
+                    return res.status(400).send('No files were uploaded.');
+                }
+    
+                const imageUploadFile = req.files.image;
+                const newImageName = Date.now() + path.extname(imageUploadFile.name); // Einzigartiger Name für das Bild
+                const uploadPath = path.resolve('public/uploads') + '/' + newImageName; // Pfad zum Speichern des Bildes
+    
+                // Bild speichern
+                await imageUploadFile.mv(uploadPath);
+    
+                // Upload des Bildes zu ImgBB
+                const formData = new FormData();
+                formData.append('image', fs.createReadStream(uploadPath));
+    
+                const response = await axios.post(
+                    `https://api.imgbb.com/1/upload?key=0cc455817c243eed31f456eee1596e6e`,
+                    formData,
+                    {
+                        headers: formData.getHeaders(),
+                    }
+                );
+    
+                if (response.data && response.data.data && response.data.data.url) {
+                    const imageUrl = response.data.data.url;
+    
+                    // Blog-Daten speichern
+                    const blogData = new blog({
+                        image: imageUrl, // Bild-URL von imgBB
+                        title: req.body.title,
+                        catchytext: req.body.catchy,
+                        text: req.body.btext,
+                        author: req.session.check._id,
+                    });
+    
+                    await blogData.save();
+                    return res.redirect("/home");
+                } else {
+                    return res.status(500).send('Fehler beim Hochladen des Bildes.');
+                }
             } else {
-                return res.status(500).send('Fehler beim Hochladen des Bildes.');
+                return res.redirect("/login");
             }
-        } else {
-            return res.redirect("/login");
+        } catch (error) {
+            console.error("Error: ", error);
+            res.status(500).send("Server error");
         }
-    } catch (error) {
-        console.error("Error: ", error);
-        res.status(500).send("Server error");
-    }
-};
-
-    exports.showdata = async (req, res) => {
+    };    exports.showdata = async (req, res) => {
         try {
             if (req.session.check) {
                 const { showcomment } = req.body;
