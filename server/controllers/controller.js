@@ -5,7 +5,7 @@
     const blog = require("../models/blog.js"); 
     const Comment = require("../models/comment.js");
     const  crypto = require ("crypto"); 
-    const bcrypt = require('bcrypt');
+    const bcrypt = require('bcryptjs');
     const path = require('path');
     const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
