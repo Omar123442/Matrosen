@@ -16,7 +16,7 @@ require('dotenv').config();
 app.use(compression()); // Aktiviert GZIP-Kompression
 app.use(flash());
 app.use(methodOverride('_method'));
-app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());
