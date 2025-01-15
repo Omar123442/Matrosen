@@ -17,6 +17,7 @@ app.use(compression()); // Aktiviert GZIP-Kompression
 app.use(flash());
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
+
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(fileUpload());

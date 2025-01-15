@@ -35,7 +35,6 @@
       </div>
     </nav>
 
-    <!-- Sidebar -->
     <div class="sidenav mt-3">
       <a href="/home" class="active"><i class="fas fa-home"></i> Home</a>
       <% if (user && user.isAdmin) { %>
@@ -44,7 +43,7 @@
         <a href="/myblogs"><i class="fab fa-youtube"></i> My Blogs</a>
       <% } else { %>
         <a href="#" onclick="showGuestWarning()"><i class="fab fa-youtube"></i> My Blogs</a>
-        <hr>
+        
       <% } %>
       <% if (!user.isGuest && !user.isAdmin) { %>
         <a href="/submit-blog"><i class="fas fa-history"></i> Publish your Blog</a>

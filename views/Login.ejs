@@ -149,6 +149,7 @@
 </head>
 <body>
     <div class="container">
+      
         <form method="POST" class="login-form mx-auto">
             <h4>Log In</h4>
             <div class="mb-3">
@@ -166,17 +167,24 @@
             <button type="submit" class="btn btn-primary">Submit</button>
             <div id="error-message" style="color: red; display: none;"></div>
             <p>Create an account <a href="/SignUp">Sign Up here</a></p>
+            <% if (errorMessage) { %>
+                <div class="alert alert-danger">
+                    <%= errorMessage %>
+                </div>
+            <% } %>
         </form>
 
         <form action="/guest" method="POST" class="login-form mx-auto">
             <button type="submit" class="btn btn-guest">Log In as Guest</button>
             <p class="tooltip-text" onclick="showTooltip()">What does 'Log In as Guest' mean?</p>
+            
         </form>
 
         <div class="tooltip-container" id="tooltip-container">
             <p>Logging in as a guest allows you to visit the website without registering.</p>
             <button class="close-tooltip" onclick="hideTooltip()">Close</button>
         </div>
+        
     </div>
 
     <script>

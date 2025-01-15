@@ -1,6 +1,9 @@
     const { clearCache } = require("ejs");
     const nodemailer = require("nodemailer");
+    const FormData = require('form-data');
     const flash = require('connect-flash');  
+    const axios = require('axios');
+const fs = require('fs'); // Für Dateizugriff
     const configoration = require("../models/auth.js");
     const blog = require("../models/blog.js"); 
     const Comment = require("../models/comment.js");
@@ -71,7 +74,7 @@ const { allowedNodeEnvironmentFlags } = require("process");
             const ADMIN_USERNAME = "Admin";
     
             if (!req.body.emailLog || !req.body.password) {
-                return res.status(400).send("Email and password are required.");
+                return res.render("Login", { errorMessage: "Email and password are required." });
             }
     
             if (req.body.emailLog === ADMIN_EMAIL && req.body.password === ADMIN_PASSWORD) {
@@ -84,16 +87,15 @@ const { allowedNodeEnvironmentFlags } = require("process");
                 };
                 return res.redirect("/home");
             }
-            
     
             const user = await configoration.findOne({ name: req.body.emailLog });
             if (!user) {
-                return res.status(400).json({ error: "Email and password are required." });
-                }
+                return res.render("Login", { errorMessage: "Invalid email or password." });
+            }
     
             const isMatch = await bcrypt.compare(req.body.password, user.password);
             if (!isMatch) {
-                return res.status(401).send("Incorrect password.");
+                return res.render("Login", { errorMessage: "Incorrect password." });
             }
     
             req.session.check = {
@@ -108,13 +110,14 @@ const { allowedNodeEnvironmentFlags } = require("process");
             return res.redirect("/home");
         } catch (error) {
             console.error("Login error:", error);
-            return res.status(500).send("An error occurred during login. Please try again later.");
+            return res.render("Login", { errorMessage: "An error occurred during login. Please try again later." });
         }
     };
-            exports.login = async(req, res)=>{
-        res.render("Login");
-    }
-
+    
+    exports.login = async (req, res) => {
+        res.render("Login", { errorMessage: null });
+    };
+    
 
     exports.guest = async (req, res) => {
         try {
@@ -388,44 +391,57 @@ const { allowedNodeEnvironmentFlags } = require("process");
     };
 
 
-    exports.blogdats = async (req, res) => {
-        try {
-            if (req.session.check) {
-                // Sicherstellen, dass eine Datei hochgeladen wurde
-                if (!req.files || !req.files.image) {
-                    console.log('No Files were uploaded.');
-                    return res.status(400).send('No files were uploaded.');
-                }
-    
-                const imageUploadFile = req.files.image;
-                const newImageName = Date.now() + path.extname(imageUploadFile.name); // Einzigartiger Name für das Bild
-                const uploadPath = path.resolve('public/uploads') + '/' + newImageName; // Pfad zum Speichern des Bildes
-    
-                // Bild in das Verzeichnis hochladen (asynchron)
-                await imageUploadFile.mv(uploadPath);
-                
+
+exports.blogdats = async (req, res) => {
+    try {
+        if (req.session.check) {
+            // Sicherstellen, dass eine Datei hochgeladen wurde
+            if (!req.files || !req.files.image) {
+                console.log('No Files were uploaded.');
+                return res.status(400).send('No files were uploaded.');
+            }
+
+            const imageUploadFile = req.files.image;
+            const newImageName = Date.now() + path.extname(imageUploadFile.name); // Einzigartiger Name für das Bild
+            const uploadPath = path.resolve('public/uploads') + '/' + newImageName; // Pfad zum Speichern des Bildes
+            
+            // Bild speichern
+            await imageUploadFile.mv(uploadPath);
+
+            // Upload des Bildes zu ImgBB
+            const formData = new FormData();
+            formData.append('image', fs.createReadStream(uploadPath));
+
+            const response = await axios.post(`https://api.imgbb.com/1/upload?key=0cc455817c243eed31f456eee1596e6e`, formData, {
+                headers: formData.getHeaders(),
+            });
+
+            if (response.data && response.data.data && response.data.data.url) {
+                const imageUrl = response.data.data.url;
+
                 // Blog-Daten speichern
                 const blogData = new blog({
-                    image: 'uploads/' + newImageName,  // Pfad zum Bild relativ zum öffentlichen Verzeichnis
+                    image: imageUrl, // Bild-URL von imgBB
                     title: req.body.title,
                     catchytext: req.body.catchy,
                     text: req.body.btext,
-                    author: req.session.check._id
+                    author: req.session.check._id,
                 });
-    
-                // Blog-Daten speichern und auf die Startseite umleiten
+
                 await blogData.save();
                 return res.redirect("/home");
             } else {
-                // Falls der Benutzer nicht eingeloggt ist, umleiten
-                return res.redirect("/login");
+                return res.status(500).send('Fehler beim Hochladen des Bildes.');
             }
-        } catch (error) {
-            // Fehlerbehandlung
-            console.error("Error: ", error);
-            res.status(500).send("Server error");
+        } else {
+            return res.redirect("/login");
         }
-    };
+    } catch (error) {
+        console.error("Error: ", error);
+        res.status(500).send("Server error");
+    }
+};
+
     exports.showdata = async (req, res) => {
         try {
             if (req.session.check) {
