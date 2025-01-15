@@ -43,7 +43,7 @@ body, html {
 }
 
 .navbar .navbar-nav .nav-link:hover {
-  color: #ffd700;
+  color: #ffd700; /* Goldgelb beim Hover */
   text-decoration: underline;
 }
 
