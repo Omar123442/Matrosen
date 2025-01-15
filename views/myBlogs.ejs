@@ -11,35 +11,39 @@
     </div>
     <div class="container my-5">
         <% if (user) { %>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <% blogs.forEach(blog => { %>
-                    <% if (user.isAdmin || blog.author.equals(user._id)) { %>
-                        <div class="col-md">
-                            <a href="/show/<%= blog.id %>" class="text-decoration-none text-dark">
-                                <div class="card h-100 shadow-sm border-0">
-                                    <img src="/<%= blog.image %>" class="card-img-top img-fluid" alt="<%= blog.title %>">
-                                    <div class="card-body">
-                                        <h5 class="card-title font-weight-bold"><%= blog.title %></h5>
-                                        <p class="card-text"><%= blog.catchytext %></p> 
-                                        <a href="/show/<%= blog.id %>" class="btn btn-primary mt-3">View More</a>
-                                        
-                                        <% if (user.isAdmin  || blog.author.equals(user._id)) { %>
-                                            <div class="d-flex justify-content-end mt-3">
-                                                <form action="/delete/<%= blog.id %>?_method=DELETE" method="POST" style="display:inline;">
-                                                    <button type="submit" class="btn btn-danger btn-sm me-2">Delete</button>
-                                                </form>
-                                                <form action="/edit/<%= blog.id %>" style="display:inline;">
-                                                    <button type="submit" class="btn btn-secondary btn-sm me-2">Edit</button>
-                                                </form>
-                                            </div>
-                                        <% } %>
+            <% if (blogs.length === 0) { %>
+                <h3 class="text-center">No Blogs created yet.</h3>
+            <% } else { %>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <% blogs.forEach(blog => { %>
+                        <% if (user.isAdmin || blog.author.equals(user._id)) { %>
+                            <div class="col-md">
+                                <a href="/show/<%= blog.id %>" class="text-decoration-none text-dark">
+                                    <div class="card h-100 shadow-sm border-0">
+                                        <img src="/<%= blog.image %>" class="card-img-top img-fluid" alt="<%= blog.title %>">
+                                        <div class="card-body">
+                                            <h5 class="card-title font-weight-bold"><%= blog.title %></h5>
+                                            <p class="card-text"><%= blog.catchytext %></p> 
+                                            <a href="/show/<%= blog.id %>" class="btn btn-primary mt-3">View More</a>
+                                            
+                                            <% if (user.isAdmin  || blog.author.equals(user._id)) { %>
+                                                <div class="d-flex justify-content-end mt-3">
+                                                    <form action="/delete/<%= blog.id %>?_method=DELETE" method="POST" style="display:inline;">
+                                                        <button type="submit" class="btn btn-danger btn-sm me-2">Delete</button>
+                                                    </form>
+                                                    <form action="/edit/<%= blog.id %>" style="display:inline;">
+                                                        <button type="submit" class="btn btn-secondary btn-sm me-2">Edit</button>
+                                                    </form>
+                                                </div>
+                                            <% } %>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    <% } %>
-                <% }) %>
-            </div>
+                                </a>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                </div>
+            <% } %>
         <% } else { %>
             <p class="text-center">Bitte logge dich ein, um deine Blogs zu sehen.</p>
         <% } %>

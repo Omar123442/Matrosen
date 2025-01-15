@@ -31,19 +31,18 @@
 
                     <a class="nav-link d-flex align-items-center" href="/userManegement" id="navbarDropdown" role="button">
 
-                      <img class="profile-picture me-2" src="/<%= user.profilePicture || 'images/user.png' %>" alt="Profile Picture" class="navbar-profile-img">
+                      <img class="profile-picture me-2" src="/<%= user.profilePicture || 'images/user.png' %>" alt="" class="navbar-profile-img">
                       <% } %> 
 
                       Hi <%= user.username %>
                     </a>
                 </li>
                 
-                
               </ul>
           </div>
       </nav>
 
-      <div class="sidenav">
+      <div class="sidenav mt-3">
         <a href="/home" class="active"><i class="fas fa-home"></i> Home</a>
         
         <% if (user &&user.isAdmin) { %>

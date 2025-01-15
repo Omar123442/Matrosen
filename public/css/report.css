@@ -142,3 +142,25 @@
     color: rgb(136, 127, 127); /* Setzt die Farbe des Platzhalter-Textes auf Weiß */
     opacity: 1;   /* Stellt sicher, dass der Platzhalter vollständig sichtbar ist */
 }
+/* Falls du den Modal-Container weiter anpassen möchtest */
+.modal-dialog {
+    max-width: 500px;
+    margin: 30px auto;
+}
+
+/* Stil für den Modal-Header */
+.modal-header {
+    background-color: #ff7e67;
+    color: white;
+}
+
+/* Stil für den Modal-Body */
+.modal-body {
+    color: #292942;
+}
+
+/* Optional: Stil für den Button im Modal */
+.modal-footer .btn-secondary {
+    background-color: #ff7e67;
+    border: none;
+}

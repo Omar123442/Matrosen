@@ -1,6 +1,6 @@
     const { clearCache } = require("ejs");
     const nodemailer = require("nodemailer");
-
+    const flash = require('connect-flash');  
     const configoration = require("../models/auth.js");
     const blog = require("../models/blog.js"); 
     const Comment = require("../models/comment.js");
@@ -152,7 +152,8 @@ const { allowedNodeEnvironmentFlags } = require("process");
     exports.report = async (req,res) =>{
         try{
             if(req.session.check){
-                res.render("report.ejs", {user: req.session.check}); 
+                const messages = req.flash();
+                res.render("report.ejs", {user: req.session.check,messages: messages}); 
             }
             else{
                 res.redirect("/Login"); 
@@ -181,36 +182,39 @@ const { allowedNodeEnvironmentFlags } = require("process");
                     debug: true, 
                     logger: true, 
                 });
-
+    
                 const userEmail = req.body.email; 
                 const subject = req.body.subject; 
                 const reportText = req.body.reportText; 
-
+    
                 const mailOptions = {
                     from: `"Report from ${userEmail}" <mediconnect3bhbgm@gmail.com>`, 
                     to: "mediconnect3bhbgm@gmail.com", 
                     subject: `User Report: ${subject}`, 
                     text: `You have received a report from a user.\n\nUser Email: ${userEmail}\nSubject: ${subject}\n\nReport:\n${reportText}`, 
                 };
-
+    
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
                         console.error("Error sending email:", error);
-                        return res.status(500).send({ message: "Error sending email." });
+                        req.flash('error', 'Error sending the report. Please try again.');
+                        return res.redirect('/report');  // Weiterleitung bei Fehler
                     } else {
                         console.log("Email sent: " + info.response);
-                        return res.status(200).send({ message: "Report sent successfully." });
+                        req.flash('success', 'Your report has been successfully sent!');
+                        return res.redirect('/report');  // Weiterleitung bei Erfolg
                     }
                 });
             } else {
-                return res.status(403).send({ message: "Unauthorized access." });
+                req.flash('error', 'Unauthorized access.');
+                return res.redirect('/login');  // Weiterleitung bei nicht eingeloggtem Benutzer
             }
         } catch (error) {
             console.error("Error processing report:", error);
-            res.status(500).send({ message: "Internal server error." });
+            req.flash('error', 'Internal server error. Please try again.');
+            res.redirect('/report');  // Weiterleitung bei Serverfehler
         }
     };
-
 
     exports.imprint = async (req, res) =>{
         try{
