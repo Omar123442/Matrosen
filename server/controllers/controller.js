@@ -392,73 +392,83 @@ const { allowedNodeEnvironmentFlags } = require("process");
 
 
 
-    exports.blogdats = async (req, res) => {
-        try {
-            if (!req.session.check) {
-                console.log("Session ist nicht vorhanden.");
-                return res.redirect("/login");
-            }
-    
-            if (!req.files || !req.files.image) {
-                console.log("Keine Datei hochgeladen.");
-                return res.status(400).send("No files were uploaded.");
-            }
-    
-            const imageUploadFile = req.files.image;
-    
-            console.log("Hochgeladene Datei:", {
-                name: imageUploadFile.name,
-                size: imageUploadFile.size,
-                mimetype: imageUploadFile.mimetype
-            });
-    
-            // Bild direkt an ImgBB hochladen
-            const formData = new FormData();
-            formData.append('image', imageUploadFile.data, imageUploadFile.name);
-    
-            try {
-                const response = await axios.post(
-                    `https://api.imgbb.com/1/upload?key=0cc455817c243eed31f456eee1596e6e`,
-                    formData,
-                    {
-                        headers: formData.getHeaders(),
-                    }
-                );
-    
-                console.log("ImgBB API Antwort:", response.data);
-    
-                if (response.data && response.data.data && response.data.data.url) {
-                    const imageUrl = response.data.data.url;
-    
-                    // Blog-Daten speichern
-                    const blogData = new blog({
-                        image: imageUrl, // Bild-URL von ImgBB
-                        title: req.body.title,
-                        catchytext: req.body.catchy,
-                        text: req.body.btext,
-                        author: req.session.check._id,
-                    });
-    
-                    await blogData.save();
-                    console.log("Blog erfolgreich gespeichert:", blogData);
-    
-                    return res.redirect("/home");
-                } else {
-                    console.error("ImgBB-Fehler: Ungültige API-Antwort.");
-                    return res.status(500).send("Fehler beim Hochladen des Bildes.");
-                }
-            } catch (imgbbError) {
-                console.error("Fehler beim Hochladen zu ImgBB:", imgbbError.message);
-                if (imgbbError.response) {
-                    console.error("ImgBB Antwort:", imgbbError.response.data);
-                }
-                return res.status(500).send("Fehler beim Hochladen des Bildes auf ImgBB.");
-            }
-        } catch (error) {
-            console.error("Serverfehler:", error.message);
-            res.status(500).send("Server error");
+exports.blogdats = async (req, res) => {
+    try {
+        if (!req.session.check) {
+            console.log("Session ist nicht vorhanden.");
+            return res.redirect("/login");
         }
-    };
+
+        if (!req.files || !req.files.image) {
+            console.log("Keine Datei hochgeladen.");
+            return res.status(400).send("No files were uploaded.");
+        }
+
+        const imageUploadFile = req.files.image;
+
+        console.log("Hochgeladene Datei:", {
+            name: imageUploadFile.name,
+            size: imageUploadFile.size,
+            mimetype: imageUploadFile.mimetype
+        });
+
+        // Bild direkt an ImgBB hochladen
+        const formData = new FormData();
+        formData.append('image', imageUploadFile.data);
+
+        const config = {
+            headers: {
+                ...formData.getHeaders()
+            },
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity
+        };
+
+        try {
+            const response = await axios.post(
+                'https://api.imgbb.com/1/upload',
+                formData,
+                {
+                    params: { key: '0cc455817c243eed31f456eee1596e6e' },
+                    ...config
+                }
+            );
+
+            console.log("ImgBB API Antwort:", response.data);
+
+            if (response.data && response.data.data && response.data.data.url) {
+                const imageUrl = response.data.data.url;
+
+                // Blog-Daten speichern
+                const blogData = new blog({
+                    image: imageUrl, // Bild-URL von ImgBB
+                    title: req.body.title,
+                    catchytext: req.body.catchy,
+                    text: req.body.btext,
+                    author: req.session.check._id,
+                });
+
+                await blogData.save();
+                console.log("Blog erfolgreich gespeichert:", blogData);
+
+                return res.redirect("/home");
+            } else {
+                console.error("ImgBB-Fehler: Ungültige API-Antwort.");
+                return res.status(500).send("Fehler beim Hochladen des Bildes.");
+            }
+        } catch (imgbbError) {
+            console.error("Fehler beim Hochladen zu ImgBB:", imgbbError.message);
+            if (imgbbError.response) {
+                console.error("ImgBB Antwort:", imgbbError.response.data);
+            }
+            return res.status(500).send("Fehler beim Hochladen des Bildes auf ImgBB.");
+        }
+    } catch (error) {
+        console.error("Serverfehler:", error.message);
+        res.status(500).send("Server error");
+    }
+};
+
         exports.showdata = async (req, res) => {
         try {
             if (req.session.check) {
