@@ -1,6 +1,7 @@
 const { clearCache } = require("ejs");
 const nodemailer = require("nodemailer");
 const FormData = require('form-data');
+const imgbbUploader = require("imgbb-uploader");
 const flash = require('connect-flash');  
 const axios = require('axios');
 const fs = require('fs'); // Für Dateizugriff
@@ -412,36 +413,18 @@ exports.blogdats = async (req, res) => {
             mimetype: imageUploadFile.mimetype
         });
 
-        // Bild direkt an ImgBB hochladen
-        const formData = new FormData();
-        formData.append('image', imageUploadFile.data, imageUploadFile.name);
-
-        const config = {
-            headers: {
-                ...formData.getHeaders()
-            },
-            maxContentLength: Infinity,
-            maxBodyLength: Infinity
-        };
-
         try {
-            const response = await axios.post(
-                'https://api.imgbb.com/1/upload',
-                formData,
-                {
-                    params: { key: '0cc455817c243eed31f456eee1596e6e' },
-                    ...config
-                }
-            );
+            const response = await imgbbUploader({
+                apiKey: '0cc455817c243eed31f456eee1596e6e', // Dein ImgBB API-Schlüssel
+                base64string: imageUploadFile.data.toString('base64'), // Bild als Base64
+                name: imageUploadFile.name // Optional: Dateiname
+            });
 
-            console.log("ImgBB API Antwort:", response.data);
+            console.log("ImgBB API Antwort:", response);
 
-            if (response.data && response.data.data && response.data.data.url) {
-                const imageUrl = response.data.data.url;
-
-                // Blog-Daten speichern
+            if (response && response.url) {
                 const blogData = new blog({
-                    image: imageUrl, // Bild-URL von ImgBB
+                    image: response.url, // Bild-URL von ImgBB
                     title: req.body.title,
                     catchytext: req.body.catchy,
                     text: req.body.btext,
@@ -458,19 +441,13 @@ exports.blogdats = async (req, res) => {
             }
         } catch (imgbbError) {
             console.error("Fehler beim Hochladen zu ImgBB:", imgbbError.message);
-            if (imgbbError.response) {
-                console.error("ImgBB Antwort:", imgbbError.response.data);
-            }
             return res.status(500).send("Fehler beim Hochladen des Bildes auf ImgBB.");
         }
     } catch (error) {
         console.error("Serverfehler:", error.message);
         res.status(500).send("Server error");
     }
-};
-;
-
-    exports.showdata = async (req, res) => {
+};    exports.showdata = async (req, res) => {
     try {
         if (req.session.check) {
             const { showcomment } = req.body;
