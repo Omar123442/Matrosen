@@ -8,6 +8,7 @@
             res.redirect("/Login"); 
         }
     });
+    
     router.get("/SignUp", controller.sign); 
     router.post("/SignUp", controller.signdata);
     router.get("/Login", controller.login);
