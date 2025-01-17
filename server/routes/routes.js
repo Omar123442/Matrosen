@@ -31,4 +31,6 @@
     router.get("/imprint", controller.imprint);
     router.get("/userManegement", controller.manageUser); 
     router.post("/userManegement", controller.manageUserdata); 
+    router.get("/usermaneger", controller.userManege); 
+    router.delete("/usermaneger/:id", controller.deleteUser); 
     module.exports= router; 

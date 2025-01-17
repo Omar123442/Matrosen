@@ -49,6 +49,9 @@
         <a href="/submit-blog"><i class="fas fa-history"></i> Publish your Blog</a>
       <% } else { %>
       <% } %>
+        <% if (user && user.isAdmin) { %>
+          <a href="/usermaneger"><i class="fas fa-history"></i> Manage User</a>
+        <% } %>
       <hr>
       <% if (!user.isGuest) { %>
         <a href="/report"><i class="fas fa-history"></i> Report</a>
@@ -61,7 +64,6 @@
       <a href="#" class="text-center fw-bold"><i class="fab fa-youtube"></i> Mediconnect</a>
     </div>
 
-    <!-- Guest Modal -->
     <div id="guestModal" class="modal" style="display:none;">
       <div class="modal-content">
         <span class="close">&times;</span>

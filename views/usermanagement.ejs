@@ -1,0 +1,37 @@
+<%- include('layout/Homepage.ejs') %>
+
+<div class="content">
+
+    <h1 class="text-center mb-4">User Management</h1>
+
+    <div class="d-flex justify-content-between mb-3">
+        <h2 class="h5">User List</h2>
+    </div>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% findUser.forEach((user, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= user.username %></td>
+                <td><%= user.name %></td>
+                <td>
+                    <form action="/usermaneger/<%= user.id %>?_method=DELETE" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+

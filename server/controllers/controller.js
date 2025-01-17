@@ -618,3 +618,29 @@ exports.search = async (req, res)=>{
     }
 
 }
+
+exports.userManege = async(req, res)=>{
+    try{
+        if(req.session.check){
+            const findUser = await configoration.find(); 
+            res.render("usermanagement.ejs", {user: req.session.check, findUser} ); 
+
+        }
+        else{
+            res.redirect("/Login")
+        }
+    }
+    catch(error){
+        res.send("Error " + error); 
+    }
+}
+exports.deleteUser= async (req, res) =>{
+    try{
+        const deleteParams = req.params.id; 
+        const delteUser = await configoration.findByIdAndDelete(deleteParams); 
+        res.redirect("/usermaneger"); 
+    }
+    catch(error){
+        res.send("Error " + error )
+    }
+}

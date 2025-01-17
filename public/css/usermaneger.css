@@ -1,0 +1,141 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f5f9; /* Heller Hintergrund */
+    color: #212529; /* Dunkler Text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Header */
+h1 {
+    font-size: 2.5rem;
+    color: #343a40; /* Dunkler Titel */
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* User List Section */
+h2.h5 {
+    font-size: 1.25rem;
+    color: #495057; /* Mittelgrau */
+    margin-bottom: 15px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    margin: 0 auto; /* Zentrierung */
+    background-color: #f8f9fa; /* Hellgrauer Hintergrund */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #343a40; /* Dunkler Hintergrund für Kopfzeilen */
+    color: #ffffff; /* Weißer Text */
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: center; /* Zentrierung des Inhalts */
+    border: 1px solid #dee2e6;
+    display: flex;
+}
+
+table tr:hover {
+    background-color: #e9ecef; /* Hellgrau bei Hover */
+}
+
+/* Buttons */
+button {
+    border-radius: 5px;
+    font-size: 0.875rem;
+    padding: 8px 12px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 5px; /* Abstand zwischen den Buttons */
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: #007bff; /* Blau */
+    border: none;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-warning {
+    background-color: #ffc107; /* Gelb */
+    border: none;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Rot */
+    border: none;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    text-align: center; /* Zentriere den Titel */
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    color: #495057;
+}
+
+.modal-body {
+    font-size: 0.875rem;
+    color: #212529;
+}
+
+.modal-footer button {
+    border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    table th, table td {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+}
